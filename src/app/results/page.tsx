@@ -39,13 +39,17 @@ export default function Results() {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          setError(data.error);
+          // Show detailed error
+          const errorMsg = data.details 
+            ? `${data.error}: ${data.details}` 
+            : data.error;
+          setError(errorMsg);
         } else {
           setResult(data);
         }
       })
       .catch((err) => {
-        setError("Failed to analyze: " + err.message);
+        setError("Network error: " + err.message);
       })
       .finally(() => {
         setLoading(false);
